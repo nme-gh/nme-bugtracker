@@ -1,0 +1,66 @@
+﻿@model nme_bugtracker.Models.TicketNotification
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TicketNotification</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.RecipientUser.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RecipientUser.FirstName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Ticket.Title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Property)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Property)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.NotificationDetail)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.NotificationDetail)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

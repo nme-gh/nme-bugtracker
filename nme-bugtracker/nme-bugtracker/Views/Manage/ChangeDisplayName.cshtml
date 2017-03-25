@@ -1,0 +1,30 @@
+﻿@model nme_bugtracker.Models.ApplicationUser
+
+@{
+    //Layout = null;
+    ViewBag.Title = "Change Display Name";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("ChangeDisplayName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @*@Html.Hidden("UserName", @ViewBag.UserName)*@
+    <input type="hidden" name="UserName" value=@ViewBag.username>
+    <h4>Change DisplayName Form</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter your new display name here" } })
+            @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change display name" class="btn btn-default" />
+        </div>
+    </div>
+}

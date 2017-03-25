@@ -1,0 +1,72 @@
+﻿@model IEnumerable<nme_bugtracker.Models.TicketNotification>
+
+@{
+    ViewBag.Title = "All Notifications";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Mark All As Read", "MarkAllRead")
+    </p>
+    <table id="myTicketNotifications" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ticket.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Property)
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.RecipientUser.FirstName)*@
+                    @Html.Label("Recipient")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NotificationDetail)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Reverse())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RecipientUser.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedFormatted)
+                    </td>
+                    <td>
+                        @Html.Raw(item.NotificationDetail)
+                    </td>
+                    <td>
+                        @Html.ActionLink("MarkAsRead", "MarkRead", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+@section Scripts {
+    <script>
+        $('#myTicketNotifications').DataTable();
+    </script>
+}
+</body>
+</html>

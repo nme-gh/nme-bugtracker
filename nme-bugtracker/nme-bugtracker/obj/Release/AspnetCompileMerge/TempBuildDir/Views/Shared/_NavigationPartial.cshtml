@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav">
+        <li>
+            @if (!User.IsInRole("Submitter"))
+            {        
+                @Html.ActionLink("Dashboard", "Dashboard", "Home")
+            } 
+        </li>
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("My Projects", "Index", "Projects")
+            }
+        </li>
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                {
+                    @Html.ActionLink("All Projects", "IndexAll", "Projects")
+                }
+            }
+        </li>
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Current Tickets", "UserTickets", "Tickets")
+            }
+        </li>
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                {
+                    @Html.ActionLink("All Tickets", "Index", "Tickets")
+                }
+            }
+        </li>
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Admin", "Index", "Admin")
+                }
+            }
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav">
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    </ul>
+
+}
+

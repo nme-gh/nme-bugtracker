@@ -1,0 +1,53 @@
+﻿@model nme_bugtracker.Models.TicketAttachment
+
+@{
+    ViewBag.Title = "Attach File";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ticket Attachment</title>
+</head>
+<body>
+    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("TicketId", (int)ViewBag.TicketId)
+
+        <div class="form-horizontal">
+            <h4>Ticket Attachment</h4>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input name="image" type="file" class="form-control" id="fileUpload" />
+                    @*@Html.EditorFor(model => model.FileUrl, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.FileUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+                
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+﻿@model nme_bugtracker.Models.Ticket
+
+@{
+    ViewBag.Title = "Ticket Detail";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Details for Ticket [<strong>@Model.Title</strong>] in Project [@Model.Project.Name]</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Project.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            @{ 
+                //TODO: Consider adding a Deadline Property for Ticket Model
+            }
+
+            <dt>
+                @*Data Annotations from Ticket model - This uses the Guid fieldname in Ticket model*@
+                @Html.DisplayNameFor(model => model.AssignedToUserId)
+                @*Data Annotations from User/Identity model which is a collection of Ticket model
+                @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AssignedToUser.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedFormatted)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketPriorityId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketPriority.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatusId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketTypeId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketType.Name)
+            </dd>
+
+        </dl>
+
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <hr />
+    <div>
+        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.Label("Comment:") <span></span>
+            @Html.TextArea("Comment")
+
+            <div>
+                <button type="submit">Add Comment</button>
+                @*<input type="submit" value="Add Comment" />*@
+
+            </div>
+
+            @*<div class="form-group">
+                <div class="col-md-10">
+                    <textarea placeholder="Message" name="Comment"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <input type="submit" value="Add Comment" class="bttn" />
+                </div>
+            </div>*@
+        }
+    </div>
+
+    <div>
+        <h3>Ticket Comments:</h3>
+        @foreach (var comment in Model.TicketComments.Reverse())
+        {
+            <h4>@Html.DisplayFor(modelItem => comment.User.UserName)</h4>
+            <p>@Html.DisplayFor(modelItem => comment.Comment)</p>
+            <h5>On @Html.DisplayFor(modelItem => comment.CreatedFormatted)</h5>
+        }
+    </div>
+
+    <div>
+        <h3>Ticket Attachments:</h3>
+        <ul>
+            @foreach (var file in Model.TicketAttachments.Reverse())
+            {
+                if (file.FileUrl != null)
+                {
+                    <li>
+                        @Html.ActionLink(file.Description, "Details", "TicketAttachments", new { Id = file.Id }, null)
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+    <div>
+        <h3>Ticket Change Log:</h3>
+        <table id="myTicketChanges" class="table">
+            <thead>
+                <tr><td><h4><strong>Ticket Change Log</strong></h4></td></tr>
+                <tr>
+                    <th>
+                        @Html.Label("Date")
+                    </th>
+                    <th>
+                        @Html.Label("Modified Property")
+                    </th>
+                    <th>
+                        @Html.Label("New Value")
+                    </th>
+                    <th>
+                        @Html.Label("Old Value")
+                    </th>
+                    <th>
+                        @Html.Label("ModifiedBy")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var change in Model.TicketHistories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => change.ChangedDateFormatted)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => change.Property)
+                        </td>
+                        <td>
+                            @TicketHistoriesHelper.ManageNavigationPropertiesData(change, 1)
+                        </td>
+                        <td>
+                            @TicketHistoriesHelper.ManageNavigationPropertiesData(change, 0)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => change.ChangedByUser.UserName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+@section Scripts {
+    <script>
+        $('#myTicketChanges').DataTable();
+    </script>
+}
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard</title>
+</head>
+<body>
+    <h4>Dashboard</h4>
+
+    @*// Admin: Dashboard[Current Tickets] button above the Morris Chart, takes you to "All Tickets". On "All Tickets", the user will have a separate button reads 'View MyTickets' and goes to "UserTickets".
+    // Non-Admin (ProjMngr and Developer): Dashboard[Current Tickets] button above the Morris Chart, takes you to "UserTickets"*@
+    <div>
+        @{ string actionName = ViewBag.ActionName;}
+        @Html.ActionLink("Current Tickets", actionName, "Tickets")
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Statistical Morris Charts, specifically Donut Type Charts, go into this <strong>Dashboard</strong></h2>
+        </div>
+    </div>
+</body>
+</html>

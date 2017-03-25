@@ -1,0 +1,84 @@
+﻿@model IEnumerable<nme_bugtracker.Models.Ticket>
+
+@{
+    ViewBag.Title = "UserTickets";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>User Tickets</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @*Data Annotations from Ticket model - This uses the Guid fieldname in Ticket model*@
+                @Html.DisplayNameFor(model => model.ProjectId)
+                @*Data Annotations from Project model which is a collection of Ticket model
+                @Html.DisplayNameFor(model => model.Project.Name)*@
+            </th>
+            <th>
+                @*Data Annotations from Ticket model - This uses the Guid fieldname in Ticket model*@
+                @Html.DisplayNameFor(model => model.AssignedToUserId)
+                @*Data Annotations from User/Identity model which is a collection of Ticket model
+                @Html.DisplayNameFor(model => model.AssignedToUser.FullName)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPriorityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketStatusId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedToUser.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

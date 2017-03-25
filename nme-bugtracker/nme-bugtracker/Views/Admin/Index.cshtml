@@ -1,0 +1,31 @@
+﻿@model nme_bugtracker.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin</title>
+</head>
+<body>
+    <h4>Admin</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Create New Project", "Create", "Projects")
+            </th>
+            <th>
+                @Html.ActionLink("Assign Role on Users", "AddUserToRole", "Admin")
+            </th>
+            <th>
+                @Html.ActionLink("Unassign Role on Users", "RemoveUserFromRole", "Admin")
+            </th>
+        </tr>
+    </table>
+</body>
+</html>
